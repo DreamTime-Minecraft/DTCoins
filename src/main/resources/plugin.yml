@@ -1,0 +1,32 @@
+name: DTCoins
+version: 1.0.0-SNAPSHOT
+main: su.dreamtime.dtcoins.Main
+softdepend: [Vault]
+depend:
+  - DreamTimeAPI
+commands:
+  money:
+    description: ""
+
+permissions:
+  dtcoins.get:
+    default: true
+    description: "to get your balance"
+  dtcoins.get.other:
+    default: op
+    description: "to get balance of other players"
+  dtcoins.help:
+    default: true
+    description: "to display available commands"
+  dtcoins.set:
+    default: op
+    description: "to set coins to players"
+  dtcoins.reset:
+    default: op
+    description: "to reset coins of players"
+  dtcoins.take:
+    default: op
+    description: "to take coins from players"
+  dtcoins.reload:
+    default: op
+    description: "reload configuration"
