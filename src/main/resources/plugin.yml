@@ -21,6 +21,9 @@ permissions:
   dtcoins.set:
     default: op
     description: "to set coins to players"
+  dtcoins.add:
+    default: op
+    description: "to add coins to players"
   dtcoins.reset:
     default: op
     description: "to reset coins of players"
