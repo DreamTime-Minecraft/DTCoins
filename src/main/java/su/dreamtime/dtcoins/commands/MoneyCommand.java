@@ -142,7 +142,7 @@ public class MoneyCommand implements CommandExecutor
 
                             msgTo = ChatColor.translateAlternateColorCodes('&',
                                     msgTo.replaceAll("%coins%", count + "")
-                                            .replaceAll("%player%", offlinePlayer.getName())
+                                            .replaceAll("%player%", sender.getName())
                                             .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count))
                             );
                             sender.sendMessage(msgFrom);
@@ -195,7 +195,7 @@ public class MoneyCommand implements CommandExecutor
 
                             msgTo = ChatColor.translateAlternateColorCodes('&',
                                     msgTo.replaceAll("%coins%", count + "")
-                                            .replaceAll("%player%", offlinePlayer.getName())
+                                            .replaceAll("%player%", sender.getName())
                                             .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count))
                             );
                             sender.sendMessage(msgFrom);
@@ -243,7 +243,7 @@ public class MoneyCommand implements CommandExecutor
 
 
                             msgTo = ChatColor.translateAlternateColorCodes('&',
-                                    msgTo.replaceAll("%player%", offlinePlayer.getName())
+                                    msgTo.replaceAll("%player%", sender.getName())
                             );
                             sender.sendMessage(msgFrom);
                             if (player != null)
@@ -292,7 +292,7 @@ public class MoneyCommand implements CommandExecutor
 
                             msgTo = ChatColor.translateAlternateColorCodes('&',
                                     msgTo.replaceAll("%coins%", count + "")
-                                            .replaceAll("%player%", offlinePlayer.getName())
+                                            .replaceAll("%player%", sender.getName())
                                             .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count))
                             );
                             sender.sendMessage(msgFrom);
