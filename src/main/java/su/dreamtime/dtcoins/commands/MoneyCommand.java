@@ -176,6 +176,11 @@ public class MoneyCommand implements CommandExecutor
                         }
                         try {
                             double count = Integer.parseInt(args[2]);
+                            if (args.length >= 4)
+                            {
+                                double factor = Integer.parseInt(args[3]);
+                                count *= factor;
+                            }
                             count = DTCoinsAPI.addCoins(offlinePlayer, count);
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.add.from.message", "");
 
@@ -351,7 +356,7 @@ public class MoneyCommand implements CommandExecutor
             sender.sendMessage("§e/money §7<ник> §eset §7<количество> §8- установить количество коинов игроку.");
         }
         if (sender.hasPermission("dtcoions.add")) {
-            sender.sendMessage("§e/money §7<ник> §eadd <количество> §8- выдать коины игроку.");
+            sender.sendMessage("§e/money §7<ник> §eadd <количество> §7[множитель] §8- выдать коины игроку.");
         }
         if (sender.hasPermission("dtcoions.reset")) {
             sender.sendMessage("§e/money §7<ник> §ereset §8- сбросить коины у игрока.");
