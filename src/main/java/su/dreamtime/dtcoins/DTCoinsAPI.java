@@ -14,7 +14,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.UUID;
 
 public class DTCoinsAPI
@@ -27,8 +26,14 @@ public class DTCoinsAPI
     }
     public static boolean hasPlayer(OfflinePlayer p)
     {
+        if (p == null)
+        {
+            return false;
+        }
+        String uuid = p.getUniqueId().toString();
+
         Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT * FROM `dtcoins` WHERE `uuid`= ?", p.getUniqueId().toString()))
+        try (ResultSet rs = db.query("SELECT * FROM `dtcoins` WHERE `uuid`= ?", uuid))
         {
             return rs.next();
         } catch (SQLException e) {
@@ -38,6 +43,10 @@ public class DTCoinsAPI
     }
     public static void addPlayer(OfflinePlayer p, int initCoins)
     {
+        if (p == null)
+        {
+            return;
+        }
         String uuid = p.getUniqueId().toString();
         Main.getDB().execute(
                 "INSERT INTO `dtcoins` (`uuid`, `coins`) " +
@@ -55,6 +64,10 @@ public class DTCoinsAPI
      */
     public static double setCoins(OfflinePlayer p, double count) throws IllegalArgumentException
     {
+        if (p == null)
+        {
+            return 0;
+        }
         if (Main.getDB().execute("UPDATE `dtcoins` SET coins = ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0) {
             throw new IllegalArgumentException("Player not found!");
         }
@@ -70,6 +83,10 @@ public class DTCoinsAPI
      */
     public static double addCoins(OfflinePlayer p, double count) throws IllegalArgumentException
     {
+        if (p == null)
+        {
+            return 0;
+        }
         if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` + ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
@@ -82,6 +99,10 @@ public class DTCoinsAPI
      */
     public static double takeCoins(OfflinePlayer p, double count) throws IllegalArgumentException
     {
+        if (p == null)
+        {
+            return 0;
+        }
         if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` - ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
@@ -98,6 +119,10 @@ public class DTCoinsAPI
     {
         // TODO: getCoins
 
+        if (p == null)
+        {
+            return 0;
+        }
         String uuid = p.getUniqueId().toString();
         if (DTCoinsData.has(uuid))
         {
@@ -122,6 +147,10 @@ public class DTCoinsAPI
      */
     public static double addMultCoins(OfflinePlayer p, double count, double mult) throws IllegalArgumentException
     {
+        if (p == null)
+        {
+            return 0;
+        }
         double result = count * mult;
         if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` + ? WHERE `uuid` = ?", result, p.getUniqueId().toString()) == 0)
         {
@@ -133,6 +162,10 @@ public class DTCoinsAPI
 
     private static void sendUpdate(OfflinePlayer p)
     {
+        if (p == null)
+        {
+            return;
+        }
         UUID UniqueId = p.getUniqueId();
         String uuid = p.getUniqueId().toString();
         ByteArrayDataOutput out = ByteStreams.newDataOutput();

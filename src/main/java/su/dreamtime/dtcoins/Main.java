@@ -38,50 +38,44 @@ public class Main extends JavaPlugin
         String database = configManager.getMainConfig().getString("database.database");
 
         db = new Database(host, port, login, password, database);
-        try {
-            db.execute("CREATE TABLE IF NOT EXISTS `dtcoins` (" +
+        db.execute("CREATE TABLE IF NOT EXISTS `dtcoins` (" +
                     "`id` SERIAL PRIMARY KEY," +
                     "`uuid` VARCHAR(255)," +
                     "`coins` DOUBLE DEFAULT 0," +
                     "unique(`uuid`)," +
                     "index(`uuid`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
-        }
-        catch (NullPointerException e)
-        {
-//            TODO: Перенести этот эксепшн в класс Database
-        }
         getInstance().getLogger().info("db was initialized");
     }
 
     public boolean initEconomy()
     {
-
-        if (configManager.getMainConfig().getBoolean("vault-support"))
-        {
+        boolean vaultSupport = configManager.getMainConfig().getBoolean("vault-support");
+        if (!vaultSupport) {
+            if (economy != null) {
+                getServer().getServicesManager().unregister(economy);
+                System.out.println("unregistered");
+            }
             return true;
         }
         if (getServer().getPluginManager().getPlugin("Vault") == null)
         {
             return false;
         }
+
+
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null)
+        if (rsp != null)
         {
-            return false;
+            economy = rsp.getProvider();
         }
-        if (!getConfigManager().getMainConfig().getBoolean("vault-support") && economy != null)
-        {
-            getServer().getServicesManager().unregister(economy);
-            return true;
-        }
-        economy = rsp.getProvider();
-        if (!(economy instanceof DTEconomy))
+        else economy = null;
+
+        if (economy == null || !(economy instanceof DTEconomy))
         {
             economy = new DTEconomy();
         }
         getServer().getServicesManager().register(Economy.class, economy, this, ServicePriority.Highest);
-
         getLogger().info("Economy \"" + economy.getName() + "\" was registered and initialized!");
         return true;
     }
@@ -97,8 +91,8 @@ public class Main extends JavaPlugin
     }
     private boolean init()
     {
-        initPlaceholderAPI();
         configManager = new ConfigManager(this);
+        initPlaceholderAPI();
         if (configManager.getMainConfig().getBoolean("vault-support"))
         {
             if (!initEconomy())
@@ -117,10 +111,26 @@ public class Main extends JavaPlugin
         // TODO: register events
         getServer().getPluginManager().registerEvents(new DTCoinsEventListener(), this);
     }
-
+private void showServices()
+{
+    getLogger().info("=== SHOW SERVICES ===");
+    List<RegisteredServiceProvider> providers =  new ArrayList<>(getServer().getServicesManager().getRegistrations(Economy.class));
+    for (RegisteredServiceProvider p : providers)
+    {
+        getLogger().info(p.getService().getName());
+        if (p.getService().getName().equalsIgnoreCase(Economy.class.getName()))
+        {
+            Economy e = (Economy)p.getProvider();
+            getLogger().info(e.getName());
+            getLogger().info(e.isEnabled() + "");
+        }
+    }
+    getLogger().info("=====================");
+}
     @Override
     public void onEnable()
     {
+        showServices();
         instance = this;
         if (!init()) return;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -132,6 +142,8 @@ public class Main extends JavaPlugin
         {
             DTCoinsAPI.addPlayer(p);
         }
+
+        showServices();
     }
 
     private void registerCommands()
@@ -142,18 +154,21 @@ public class Main extends JavaPlugin
     @Override
     public void onDisable()
     {
+        getServer().getServicesManager().unregisterAll(this);
         for (PlaceholderExpansion exp : papiExpansions)
         {
             PlaceholderAPI.unregisterExpansion(exp);
 
         }
+
         papiExpansions.clear();
         for (Player p : Bukkit.getOnlinePlayers())
         {
             DTCoinsData.remove(p.getUniqueId().toString());
         }
         try {
-            db.close();
+            if (db != null)
+                db.close();
             db = null;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,9 @@
 name: DTCoins
 version: 1.0.0-SNAPSHOT
 main: su.dreamtime.dtcoins.Main
-softdepend: [Vault]
+softdepend: [Vault, PlaceholderAPI]
+api-version: 1.13
+load: STARTUP
 depend:
   - DreamTimeAPI
 commands:

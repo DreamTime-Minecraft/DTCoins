@@ -1,14 +1,15 @@
 package su.dreamtime.dtcoins.economy;
 
 import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import su.dreamtime.dtcoins.DTCoinsAPI;
 import su.dreamtime.dtcoins.Main;
 import java.util.List;
 
-public class DTEconomy extends AbstractEconomy
-{
+public class DTEconomy implements Economy {
     private final String name = "DreamTime Economy";
     private boolean enabled = false;
     public DTEconomy()
@@ -54,13 +55,18 @@ public class DTEconomy extends AbstractEconomy
 
     @Override
     public boolean hasAccount(String playerName) {
+        return hasAccount(Bukkit.getOfflinePlayer(playerName));
+
+    }
+
+    @Override
+    public boolean hasAccount(OfflinePlayer offlinePlayer) {
         try {
-            return DTCoinsAPI.hasPlayer(Bukkit.getPlayer(playerName));
+            return DTCoinsAPI.hasPlayer(offlinePlayer);
         }catch (IllegalArgumentException e)
         {
             return false;
         }
-
     }
 
     @Override
@@ -69,8 +75,18 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public boolean hasAccount(OfflinePlayer offlinePlayer, String s) {
+        return hasAccount(offlinePlayer);
+    }
+
+    @Override
     public double getBalance(String playerName) {
-        return DTCoinsAPI.getCoins(Bukkit.getPlayer(playerName));
+        return getBalance(Bukkit.getPlayer(playerName));
+    }
+
+    @Override
+    public double getBalance(OfflinePlayer offlinePlayer) {
+        return DTCoinsAPI.getCoins(offlinePlayer);
     }
 
     @Override
@@ -79,8 +95,18 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public double getBalance(OfflinePlayer offlinePlayer, String s) {
+        return getBalance(offlinePlayer);
+    }
+
+    @Override
     public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
+        return has(Bukkit.getPlayer(playerName), amount);
+    }
+
+    @Override
+    public boolean has(OfflinePlayer offlinePlayer, double v) {
+        return offlinePlayer == null || getBalance(offlinePlayer) >= v;
     }
 
     @Override
@@ -89,10 +115,20 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
+        return has(offlinePlayer, v);
+    }
+
+    @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        DTCoinsAPI.takeCoins(Bukkit.getPlayer(playerName), amount);
-        double coins = DTCoinsAPI.getCoins(Bukkit.getPlayer(playerName));
-        return new EconomyResponse(amount, coins, EconomyResponse.ResponseType.SUCCESS,"");
+        return withdrawPlayer(Bukkit.getPlayer(playerName), amount);
+    }
+
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
+        DTCoinsAPI.takeCoins(offlinePlayer, v);
+        double coins = DTCoinsAPI.getCoins(offlinePlayer);
+        return new EconomyResponse(v, coins, EconomyResponse.ResponseType.SUCCESS,"");
     }
 
     @Override
@@ -101,10 +137,20 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String s, double v) {
+        return withdrawPlayer(offlinePlayer, v);
+    }
+
+    @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        DTCoinsAPI.addCoins(Bukkit.getPlayer(playerName), amount);
-        double coins = DTCoinsAPI.getCoins(Bukkit.getPlayer(playerName));
-        return new EconomyResponse(amount, coins, EconomyResponse.ResponseType.SUCCESS,"");
+        return depositPlayer(Bukkit.getOfflinePlayer(playerName), amount);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
+        DTCoinsAPI.addCoins(offlinePlayer, v);
+        double coins = DTCoinsAPI.getCoins(offlinePlayer);
+        return new EconomyResponse(v, coins, EconomyResponse.ResponseType.SUCCESS,"");
     }
 
     @Override
@@ -113,7 +159,17 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String s, double v) {
+        return depositPlayer(offlinePlayer, v);
+    }
+
+    @Override
     public EconomyResponse createBank(String name, String player) {
+        return null;
+    }
+
+    @Override
+    public EconomyResponse createBank(String s, OfflinePlayer offlinePlayer) {
         return null;
     }
 
@@ -148,7 +204,17 @@ public class DTEconomy extends AbstractEconomy
     }
 
     @Override
+    public EconomyResponse isBankOwner(String s, OfflinePlayer offlinePlayer) {
+        return null;
+    }
+
+    @Override
     public EconomyResponse isBankMember(String name, String playerName) {
+        return null;
+    }
+
+    @Override
+    public EconomyResponse isBankMember(String s, OfflinePlayer offlinePlayer) {
         return null;
     }
 
@@ -159,12 +225,17 @@ public class DTEconomy extends AbstractEconomy
 
     @Override
     public boolean createPlayerAccount(String playerName) {
+        return createPlayerAccount(Bukkit.getPlayer(playerName));
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
         try
         {
-            DTCoinsAPI.addPlayer(Bukkit.getPlayer(playerName));
+            DTCoinsAPI.addPlayer(offlinePlayer);
             return true;
         }
-        catch (IllegalArgumentException e )
+        catch (IllegalArgumentException e)
         {
             return false;
         }
@@ -173,5 +244,10 @@ public class DTEconomy extends AbstractEconomy
     @Override
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s) {
+        return createPlayerAccount(offlinePlayer);
     }
 }
