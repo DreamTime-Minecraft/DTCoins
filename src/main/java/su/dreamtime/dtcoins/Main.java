@@ -31,6 +31,14 @@ public class Main extends JavaPlugin
     private static List<PlaceholderExpansion> papiExpansions;
     public static void initDB()
     {
+        if (db!= null)
+        {
+            try {
+                db.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         String host = configManager.getMainConfig().getString("database.host");
         int port = configManager.getMainConfig().getInt("database.port");
         String login = configManager.getMainConfig().getString("database.login");
@@ -54,7 +62,6 @@ public class Main extends JavaPlugin
         if (!vaultSupport) {
             if (economy != null) {
                 getServer().getServicesManager().unregister(economy);
-                System.out.println("unregistered");
             }
             return true;
         }
@@ -62,7 +69,6 @@ public class Main extends JavaPlugin
         {
             return false;
         }
-
 
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp != null)
@@ -80,7 +86,7 @@ public class Main extends JavaPlugin
         return true;
     }
 
-    public void initPlaceholderAPI()
+    public static void initPlaceholderAPI()
     {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             papiExpansions = new ArrayList<>();
@@ -111,26 +117,9 @@ public class Main extends JavaPlugin
         // TODO: register events
         getServer().getPluginManager().registerEvents(new DTCoinsEventListener(), this);
     }
-private void showServices()
-{
-    getLogger().info("=== SHOW SERVICES ===");
-    List<RegisteredServiceProvider> providers =  new ArrayList<>(getServer().getServicesManager().getRegistrations(Economy.class));
-    for (RegisteredServiceProvider p : providers)
-    {
-        getLogger().info(p.getService().getName());
-        if (p.getService().getName().equalsIgnoreCase(Economy.class.getName()))
-        {
-            Economy e = (Economy)p.getProvider();
-            getLogger().info(e.getName());
-            getLogger().info(e.isEnabled() + "");
-        }
-    }
-    getLogger().info("=====================");
-}
     @Override
     public void onEnable()
     {
-        showServices();
         instance = this;
         if (!init()) return;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -142,8 +131,6 @@ private void showServices()
         {
             DTCoinsAPI.addPlayer(p);
         }
-
-        showServices();
     }
 
     private void registerCommands()
@@ -154,12 +141,6 @@ private void showServices()
     @Override
     public void onDisable()
     {
-        getServer().getServicesManager().unregisterAll(this);
-        for (PlaceholderExpansion exp : papiExpansions)
-        {
-            PlaceholderAPI.unregisterExpansion(exp);
-
-        }
 
         papiExpansions.clear();
         for (Player p : Bukkit.getOnlinePlayers())
@@ -172,6 +153,21 @@ private void showServices()
             db = null;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        getServer().getServicesManager().unregisterAll(this);
+    }
+
+    public static void unregisterPlaceholderAPI()
+    {
+        if (papiExpansions == null)
+        {
+            return;
+        }
+        for (PlaceholderExpansion exp : papiExpansions)
+        {
+            PlaceholderAPI.unregisterExpansion(exp);
+
         }
     }
 

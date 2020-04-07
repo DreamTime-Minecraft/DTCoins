@@ -59,9 +59,13 @@ public class MoneyCommand implements CommandExecutor
                     else
                     {
                         Main.getConfigManager().loadMainConfig();
+
                         Main.initDB();
 
                         Main.getInstance().initEconomy();
+
+                        Main.unregisterPlaceholderAPI();
+                        Main.initPlaceholderAPI();
                         return true;
                     }
                 }
