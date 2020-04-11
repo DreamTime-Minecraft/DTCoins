@@ -120,6 +120,7 @@ public class Main extends JavaPlugin
     @Override
     public void onEnable()
     {
+
         instance = this;
         if (!init()) return;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -180,6 +181,10 @@ public class Main extends JavaPlugin
     }
 
     public static Database getDB() {
+        if (db == null)
+        {
+            initDB();
+        }
         return db;
     }
 

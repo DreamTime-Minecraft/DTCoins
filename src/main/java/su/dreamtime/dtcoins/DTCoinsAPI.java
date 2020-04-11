@@ -139,6 +139,7 @@ public class DTCoinsAPI
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException e) { }
         return 0;
     }
 

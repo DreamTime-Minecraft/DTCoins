@@ -254,6 +254,7 @@ public class MoneyCommand implements CommandExecutor
                             msgTo = ChatColor.translateAlternateColorCodes('&',
                                     msgTo.replaceAll("%player%", sender.getName())
                             );
+                            DTCoinsAPI.resetCoins(player);
                             sender.sendMessage(msgFrom);
                             if (player != null)
                                 player.sendMessage(msgTo);
