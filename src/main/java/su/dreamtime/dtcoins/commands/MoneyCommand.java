@@ -7,9 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import ru.sgk.dreamtimeapi.io.ConfigManager;
 import su.dreamtime.dtcoins.DTCoinsAPI;
 import su.dreamtime.dtcoins.Main;
+
+import java.util.Arrays;
 
 public class MoneyCommand implements CommandExecutor
 {
@@ -282,14 +283,79 @@ public class MoneyCommand implements CommandExecutor
                         }
                         try {
                             double count = Integer.parseInt(args[2]);
-                            count = DTCoinsAPI.takeCoins(offlinePlayer, count);
-
-                            String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.take.from.message", "");
 
                             String word = Main.getConfigManager().getMainConfig().getString("messages.take.currency.word");
                             String a = Main.getConfigManager().getMainConfig().getString("messages.take.currency.a");
                             String b = Main.getConfigManager().getMainConfig().getString("messages.take.currency.b");
                             String c = Main.getConfigManager().getMainConfig().getString("messages.take.currency.c");
+
+                            String msgTo = Main.getConfigManager().getMainConfig().getString("messages.take.to.message", "");
+
+                            String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.take.from.message", "");
+                            boolean hasCoins = DTCoinsAPI.getCoins(offlinePlayer) >= count;
+                            if (args.length >= 4)
+                            {
+                                String commandToExec = "";
+                                if (args[3].equalsIgnoreCase("true") || args[3].equalsIgnoreCase("false")) {
+                                    boolean checkHasCoins = Boolean.parseBoolean(args[3]);
+                                    if (checkHasCoins)
+                                    {
+                                        if (hasCoins)
+                                        {
+                                            count = DTCoinsAPI.takeCoins(offlinePlayer, count);
+                                            if (args.length >= 5)
+                                                commandToExec = String.join(" ", Arrays.copyOfRange(args, 4, args.length));
+                                        }
+                                        else
+                                        {
+                                            msgFrom = Main.getConfigManager().getMainConfig().getString("messages.take.from.no-money", "");
+                                            msgTo = Main.getConfigManager().getMainConfig().getString("messages.take.to.no-money", "");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        count = DTCoinsAPI.takeCoins(offlinePlayer, count);
+                                        if (args.length >= 5)
+                                            commandToExec = String.join(" ", Arrays.copyOfRange(args, 4, args.length));
+                                    }
+                                }
+                                else
+                                {
+                                    if (hasCoins)
+                                    {
+                                        count = DTCoinsAPI.takeCoins(offlinePlayer, count);
+                                        if (args.length >= 5)
+                                            commandToExec = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+                                    }
+                                    else
+                                    {
+                                        msgFrom = Main.getConfigManager().getMainConfig().getString("messages.take.from.no-money", "");
+                                        msgTo = Main.getConfigManager().getMainConfig().getString("messages.take.to.no-money", "");
+                                    }
+                                }
+                                if (commandToExec.length()>0)
+                                {
+
+                                    commandToExec = commandToExec.replaceAll("%coins%", count + "")
+                                            .replaceAll("%sender%", sender.getName())
+                                            .replaceAll("%target%", offlinePlayer.getName())
+                                            .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count));
+                                    Bukkit.dispatchCommand(sender, commandToExec);
+                                }
+                            }
+                            else {
+                                if (hasCoins)
+                                {
+                                    count = DTCoinsAPI.takeCoins(offlinePlayer, count);
+                                }
+                                else
+                                {
+                                    msgFrom = Main.getConfigManager().getMainConfig().getString("messages.take.from.no-money", "");
+                                    msgTo = Main.getConfigManager().getMainConfig().getString("messages.take.to.no-money", "");
+                                }
+
+                            }
 
                             msgFrom = ChatColor.translateAlternateColorCodes(
                                     '&',
@@ -297,9 +363,6 @@ public class MoneyCommand implements CommandExecutor
                                             .replaceAll("%player%", offlinePlayer.getName())
                                             .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count))
                             );
-                            String msgTo = Main.getConfigManager().getMainConfig().getString("messages.take.to.message", "");
-
-
                             msgTo = ChatColor.translateAlternateColorCodes('&',
                                     msgTo.replaceAll("%coins%", count + "")
                                             .replaceAll("%player%", sender.getName())

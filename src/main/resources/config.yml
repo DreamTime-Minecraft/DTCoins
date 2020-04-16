@@ -70,8 +70,10 @@ messages:
   take:
     from:
       message: "&aУ игрока %player% было забрано %coins%  %curr_name%"
+      no-money: "У игрока %player% недостаточно коинов"
     to:
       message: "&a%player% забрал у вас %coins%  %curr_name%"
+      no-money: "&cНедостаточно коинов!"
     currency:
       word: "коин"
       a: ""
