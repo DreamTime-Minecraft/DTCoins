@@ -183,8 +183,9 @@ public class MoneyCommand implements CommandExecutor
                             double count = Integer.parseInt(args[2]);
                             if (args.length >= 4)
                             {
-                                double factor = Integer.parseInt(args[3]);
+                                double factor = Double.parseDouble(args[3]);
                                 count *= factor;
+                                count = (int) count;
                             }
                             count = DTCoinsAPI.addCoins(offlinePlayer, count);
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.add.from.message", "");
