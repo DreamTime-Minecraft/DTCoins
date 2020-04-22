@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 import su.dreamtime.dtcoins.DTCoinsAPI;
 import su.dreamtime.dtcoins.Main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MoneyCommand implements CommandExecutor
 {
@@ -415,26 +417,35 @@ public class MoneyCommand implements CommandExecutor
 
     private static void sendHelp(CommandSender sender)
     {
+        List<String> message = new ArrayList<>();
         if (sender.hasPermission("dtcoins.get.other")){
-            sender.sendMessage("§e/money §7[ник] §8- узнать количество коинов.");
+            message.add("§e/money §7[ник] §8- узнать количество коинов.");
+//            sender.sendMessage("§e/money §7[ник] §8- узнать количество коинов.");
         }
         else if (sender.hasPermission("dtcoins.get")) {
-            sender.sendMessage("§e/money §8- узнать количество коинов.");
+            message.add("§e/money §8- узнать количество коинов.");
+//            sender.sendMessage("§e/money §8- узнать количество коинов.");
         }
         if (sender.hasPermission("dtcoions.set")) {
-            sender.sendMessage("§e/money §7<ник> §eset §7<количество> §8- установить количество коинов игроку.");
+            message.add("§e/money §7<ник> §eset §7<количество> §8- установить количество коинов игроку.");
+//            sender.sendMessage("§e/money §7<ник> §eset §7<количество> §8- установить количество коинов игроку.");
         }
         if (sender.hasPermission("dtcoions.add")) {
-            sender.sendMessage("§e/money §7<ник> §eadd <количество> §7[множитель] §8- выдать коины игроку.");
+            message.add("§e/money §7<ник> §eadd <количество> §7[множитель] §8- выдать коины игроку.");
+//            sender.sendMessage("§e/money §7<ник> §eadd <количество> §7[множитель] §8- выдать коины игроку.");
         }
         if (sender.hasPermission("dtcoions.reset")) {
-            sender.sendMessage("§e/money §7<ник> §ereset §8- сбросить коины у игрока.");
+            message.add("§e/money §7<ник> §ereset §8- сбросить коины у игрока.");
+//            sender.sendMessage("§e/money §7<ник> §ereset §8- сбросить коины у игрока.");
         }
         if (sender.hasPermission("dtcoions.take")) {
-            sender.sendMessage("§e/money §7<ник> §etake §7<количество> §8- забрать коины у игрока.");
+            message.add("§e/money §7<ник> §etake §7<количество> §8- забрать коины у игрока.");
+//            sender.sendMessage("§e/money §7<ник> §etake §7<количество> §8- забрать коины у игрока.");
         }
         if (sender.hasPermission("dtcoions.admin")) {
-            sender.sendMessage("§с/money reload §8- перезагрузить плагин (перезагрузка конфига, переподключение к бд и т.д.");
+            message.add("§c/money reload §8- перезагрузить плагин (перезагрузка конфига, переподключение к бд и т.д.");
+//            sender.sendMessage("§с/money reload §8- перезагрузить плагин (перезагрузка конфига, переподключение к бд и т.д.");
         }
+        sender.sendMessage(message.toArray(new String[0]));
     }
 }
