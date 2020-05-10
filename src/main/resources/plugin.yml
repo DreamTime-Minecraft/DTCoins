@@ -1,37 +1,38 @@
-name: DTCoins
+name: ${project.name}
 version: ${project.version}
-main: su.dreamtime.dtcoins.Main
+main: su.dreamtime.dreamiki.Main
 softdepend: [Vault, PlaceholderAPI]
 api-version: 1.13
 load: STARTUP
 depend:
   - DreamTimeAPI
 commands:
-  money:
+  donatewallet:
     description: ""
+    aliases: [dw]
 
 permissions:
-  dtcoins.get:
+  dreamiki.get:
     default: true
     description: "to get your balance"
-  dtcoins.get.other:
+  dreamiki.get.other:
     default: op
     description: "to get balance of other players"
-  dtcoins.help:
+  dreamiki.help:
     default: true
     description: "to display available commands"
-  dtcoins.set:
+  dreamiki.set:
     default: op
     description: "to set coins to players"
-  dtcoins.add:
+  dreamiki.add:
     default: op
     description: "to add coins to players"
-  dtcoins.reset:
+  dreamiki.reset:
     default: op
     description: "to reset coins of players"
-  dtcoins.take:
+  dreamiki.take:
     default: op
     description: "to take coins from players"
-  dtcoins.reload:
+  dreamiki.reload:
     default: op
     description: "reload configuration"

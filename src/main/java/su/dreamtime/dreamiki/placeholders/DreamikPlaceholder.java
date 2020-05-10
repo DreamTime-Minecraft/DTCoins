@@ -1,10 +1,10 @@
-package su.dreamtime.dtcoins.placeholders;
+package su.dreamtime.dreamiki.placeholders;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
-import su.dreamtime.dtcoins.DTCoinsAPI;
+import su.dreamtime.dreamiki.DTCoinsAPI;
 
-public class DTCoinPlaceholder extends PlaceholderExpansion {
+public class DreamikPlaceholder extends PlaceholderExpansion {
     @Override
     public String getIdentifier() {
         return "dt";
@@ -12,7 +12,7 @@ public class DTCoinPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer p, String params) {
-        if (params.equalsIgnoreCase("coins"))
+        if (params.equalsIgnoreCase("don_bal"))
             return String.valueOf(DTCoinsAPI.getCoins(p));
         return "§cdt_error";
     }

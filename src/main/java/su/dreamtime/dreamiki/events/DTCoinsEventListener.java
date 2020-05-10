@@ -1,12 +1,11 @@
-package su.dreamtime.dtcoins.events;
+package su.dreamtime.dreamiki.events;
 
-import me.clip.placeholderapi.events.PlaceholderHookUnloadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import su.dreamtime.dtcoins.DTCoinsAPI;
-import su.dreamtime.dtcoins.data.DTCoinsData;
+import su.dreamtime.dreamiki.DTCoinsAPI;
+import su.dreamtime.dreamiki.data.DTCoinsData;
 
 public class DTCoinsEventListener implements Listener
 {

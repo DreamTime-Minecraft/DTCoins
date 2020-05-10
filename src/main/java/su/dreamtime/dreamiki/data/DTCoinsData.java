@@ -1,4 +1,4 @@
-package su.dreamtime.dtcoins.data;
+package su.dreamtime.dreamiki.data;
 
 import org.bukkit.Bukkit;
 
@@ -26,9 +26,6 @@ public class DTCoinsData
         coinsData.remove(uuid);
     }
 
-    /**
-     *
-     */
     public static synchronized void putNew(String uuid, Integer coins)
     {
         if (!coinsData.containsKey(uuid)) {

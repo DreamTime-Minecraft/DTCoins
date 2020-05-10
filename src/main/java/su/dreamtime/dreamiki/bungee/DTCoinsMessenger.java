@@ -1,4 +1,4 @@
-package su.dreamtime.dtcoins.bungee;
+package su.dreamtime.dreamiki.bungee;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import su.dreamtime.dtcoins.DTCoinsAPI;
-import su.dreamtime.dtcoins.data.DTCoinsData;
+import su.dreamtime.dreamiki.DTCoinsAPI;
+import su.dreamtime.dreamiki.data.DTCoinsData;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -24,7 +24,7 @@ public class DTCoinsMessenger implements PluginMessageListener
         {
             ByteArrayDataInput in = ByteStreams.newDataInput(message);
             String subChannel = in.readUTF();
-            if (subChannel.equalsIgnoreCase("dtcoins"))
+            if (subChannel.equalsIgnoreCase("dreamiki"))
             {
                 short len = in.readShort();
                 byte[] msgbytes = new byte[len];

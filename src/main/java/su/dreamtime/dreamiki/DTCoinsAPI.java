@@ -1,4 +1,4 @@
-package su.dreamtime.dtcoins;
+package su.dreamtime.dreamiki;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import ru.sgk.dreamtimeapi.data.Database;
-import su.dreamtime.dtcoins.bungee.DTCoinsMessenger;
-import su.dreamtime.dtcoins.data.DTCoinsData;
+import su.dreamtime.dreamiki.bungee.DTCoinsMessenger;
+import su.dreamtime.dreamiki.data.DTCoinsData;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -33,7 +33,7 @@ public class DTCoinsAPI
         String uuid = p.getUniqueId().toString();
 
         Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT * FROM `dtcoins` WHERE `uuid`= ?", uuid))
+        try (ResultSet rs = db.query("SELECT * FROM `dreamiki` WHERE `uuid`= ?", uuid))
         {
             return rs.next();
         } catch (SQLException e) {
@@ -49,10 +49,10 @@ public class DTCoinsAPI
         }
         String uuid = p.getUniqueId().toString();
         Main.getDB().execute(
-                "INSERT INTO `dtcoins` (`uuid`, `coins`) " +
+                "INSERT INTO `dreamiki` (`uuid`, `coins`) " +
                         "SELECT * FROM (SELECT ?, ?) tmp " +
                         "WHERE NOT EXISTS ( " +
-                        "SELECT `uuid` FROM `dtcoins` WHERE `uuid` = ? " +
+                        "SELECT `uuid` FROM `dreamiki` WHERE `uuid` = ? " +
                         ") LIMIT 1;",
                 uuid,
                 initCoins,
@@ -68,7 +68,7 @@ public class DTCoinsAPI
         {
             return 0;
         }
-        if (Main.getDB().execute("UPDATE `dtcoins` SET coins = ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0) {
+        if (Main.getDB().execute("UPDATE `dreamiki` SET coins = ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0) {
             throw new IllegalArgumentException("Player not found!");
         }
         sendUpdate(p);
@@ -87,7 +87,7 @@ public class DTCoinsAPI
         {
             return 0;
         }
-        if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` + ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
+        if (Main.getDB().execute("UPDATE `dreamiki` SET `coins` = `coins` + ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
         }
@@ -103,7 +103,7 @@ public class DTCoinsAPI
         {
             return 0;
         }
-        if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` - ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
+        if (Main.getDB().execute("UPDATE `dreamiki` SET `coins` = `coins` - ? WHERE `uuid` = ?", count, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
         }
@@ -129,7 +129,7 @@ public class DTCoinsAPI
             return DTCoinsData.getCoins(uuid);
         }
         Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT * FROM `dtcoins` WHERE `uuid`= ?", uuid))
+        try (ResultSet rs = db.query("SELECT * FROM `dreamiki` WHERE `uuid`= ?", uuid))
         {
             if (!rs.next())
                 throw new IllegalArgumentException("Player not found!");
@@ -153,7 +153,7 @@ public class DTCoinsAPI
             return 0;
         }
         double result = count * mult;
-        if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` + ? WHERE `uuid` = ?", result, p.getUniqueId().toString()) == 0)
+        if (Main.getDB().execute("UPDATE `dreamiki` SET `coins` = `coins` + ? WHERE `uuid` = ?", result, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
         }
@@ -172,7 +172,7 @@ public class DTCoinsAPI
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Forward"); // So BungeeCord knows to forward it
         out.writeUTF("ALL");
-        out.writeUTF("dtcoins");
+        out.writeUTF("dreamiki");
 
         try (ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
              DataOutputStream msgout = new DataOutputStream(msgbytes);){

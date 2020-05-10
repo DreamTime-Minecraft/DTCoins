@@ -1,4 +1,4 @@
-package su.dreamtime.dtcoins.commands;
+package su.dreamtime.dreamiki.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,8 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import su.dreamtime.dtcoins.DTCoinsAPI;
-import su.dreamtime.dtcoins.Main;
+import su.dreamtime.dreamiki.DTCoinsAPI;
+import su.dreamtime.dreamiki.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,11 +19,11 @@ public class MoneyCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        if (command.getName().equalsIgnoreCase("money"))
+        if (command.getName().equalsIgnoreCase("donatewallet"))
         {
             if (args.length <= 0)
             {
-                if (sender.hasPermission("dtcoins.get") || sender.hasPermission("dtcoins.get.other"))
+                if (sender.hasPermission("dreamiki.get") || sender.hasPermission("dreamiki.get.other"))
                 {
                     if (!isPlayer(sender))
                         return true;
@@ -64,8 +64,6 @@ public class MoneyCommand implements CommandExecutor
                         Main.getConfigManager().loadMainConfig();
 
                         Main.initDB();
-
-                        Main.getInstance().initEconomy();
 
                         Main.unregisterPlaceholderAPI();
                         Main.initPlaceholderAPI();
@@ -418,11 +416,11 @@ public class MoneyCommand implements CommandExecutor
     private static void sendHelp(CommandSender sender)
     {
         List<String> message = new ArrayList<>();
-        if (sender.hasPermission("dtcoins.get.other")){
+        if (sender.hasPermission("dreamiki.get.other")){
             message.add("§e/money §7[ник] §8- узнать количество коинов.");
 //            sender.sendMessage("§e/money §7[ник] §8- узнать количество коинов.");
         }
-        else if (sender.hasPermission("dtcoins.get")) {
+        else if (sender.hasPermission("dreamiki.get")) {
             message.add("§e/money §8- узнать количество коинов.");
 //            sender.sendMessage("§e/money §8- узнать количество коинов.");
         }

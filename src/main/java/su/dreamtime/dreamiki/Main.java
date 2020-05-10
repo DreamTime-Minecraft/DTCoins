@@ -1,23 +1,18 @@
-package su.dreamtime.dtcoins;
+package su.dreamtime.dreamiki;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.sgk.dreamtimeapi.data.Database;
 import ru.sgk.dreamtimeapi.io.ConfigManager;
-import su.dreamtime.dtcoins.bungee.DTCoinsMessenger;
-import su.dreamtime.dtcoins.commands.MoneyCommand;
-import su.dreamtime.dtcoins.data.DTCoinsData;
-import su.dreamtime.dtcoins.economy.DTEconomy;
-import su.dreamtime.dtcoins.events.DTCoinsEventListener;
-import su.dreamtime.dtcoins.placeholders.DTCoinPlaceholder;
+import su.dreamtime.dreamiki.bungee.DTCoinsMessenger;
+import su.dreamtime.dreamiki.commands.MoneyCommand;
+import su.dreamtime.dreamiki.data.DTCoinsData;
+import su.dreamtime.dreamiki.events.DTCoinsEventListener;
+import su.dreamtime.dreamiki.placeholders.DreamikPlaceholder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +41,7 @@ public class Main extends JavaPlugin
         String database = configManager.getMainConfig().getString("database.database");
 
         db = new Database(host, port, login, password, database);
-        db.execute("CREATE TABLE IF NOT EXISTS `dtcoins` (" +
+        db.execute("CREATE TABLE IF NOT EXISTS `dreamiki` (" +
                     "`id` SERIAL PRIMARY KEY," +
                     "`uuid` VARCHAR(255)," +
                     "`coins` DOUBLE DEFAULT 0," +
@@ -55,42 +50,11 @@ public class Main extends JavaPlugin
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
         getInstance().getLogger().info("db was initialized");
     }
-
-    public boolean initEconomy()
-    {
-        boolean vaultSupport = configManager.getMainConfig().getBoolean("vault-support");
-        if (!vaultSupport) {
-            if (economy != null) {
-                getServer().getServicesManager().unregister(economy);
-            }
-            return true;
-        }
-        if (getServer().getPluginManager().getPlugin("Vault") == null)
-        {
-            return false;
-        }
-
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp != null)
-        {
-            economy = rsp.getProvider();
-        }
-        else economy = null;
-
-        if (economy == null || !(economy instanceof DTEconomy))
-        {
-            economy = new DTEconomy();
-        }
-        getServer().getServicesManager().register(Economy.class, economy, this, ServicePriority.Highest);
-        getLogger().info("Economy \"" + economy.getName() + "\" was registered and initialized!");
-        return true;
-    }
-
     public static void initPlaceholderAPI()
     {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             papiExpansions = new ArrayList<>();
-            PlaceholderExpansion exp = new DTCoinPlaceholder();
+            PlaceholderExpansion exp = new DreamikPlaceholder();
             exp.register();
             papiExpansions.add(exp);
         }
@@ -99,15 +63,6 @@ public class Main extends JavaPlugin
     {
         configManager = new ConfigManager(this);
         initPlaceholderAPI();
-        if (configManager.getMainConfig().getBoolean("vault-support"))
-        {
-            if (!initEconomy())
-            {
-                getLogger().warning(getName() + " - Disabled due to no Vault dependency found!");
-                getServer().getPluginManager().disablePlugin(this);
-                return false;
-            }
-        }
         initDB();
         return true;
     }
@@ -136,7 +91,7 @@ public class Main extends JavaPlugin
 
     private void registerCommands()
     {
-        getCommand("money").setExecutor(new MoneyCommand());
+        getCommand("donatewallet").setExecutor(new MoneyCommand());
     }
 
     @Override

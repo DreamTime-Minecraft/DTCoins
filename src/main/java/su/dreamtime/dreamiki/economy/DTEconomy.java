@@ -1,12 +1,11 @@
-package su.dreamtime.dtcoins.economy;
+package su.dreamtime.dreamiki.economy;
 
-import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import su.dreamtime.dtcoins.DTCoinsAPI;
-import su.dreamtime.dtcoins.Main;
+import su.dreamtime.dreamiki.DTCoinsAPI;
+
 import java.util.List;
 
 public class DTEconomy implements Economy {
