@@ -7,14 +7,14 @@ import su.dreamtime.dtcoins.DTCoinsAPI;
 public class DTCoinPlaceholder extends PlaceholderExpansion {
     @Override
     public String getIdentifier() {
-        return "dt";
+        return "dtcoins";
     }
 
     @Override
     public String onRequest(OfflinePlayer p, String params) {
-        if (params.equalsIgnoreCase("coins"))
+        if (params.equalsIgnoreCase("bal"))
             return String.valueOf(DTCoinsAPI.getCoins(p));
-        return "§cdt_error";
+        return params;
     }
 
     @Override
