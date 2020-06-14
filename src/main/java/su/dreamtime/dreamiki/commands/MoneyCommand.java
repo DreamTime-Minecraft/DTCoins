@@ -28,7 +28,7 @@ public class MoneyCommand implements CommandExecutor
                     if (!isPlayer(sender))
                         return true;
                     Player player = (Player) sender;
-                    double coins = DTCoinsAPI.getCoins(player);
+                    long coins = DTCoinsAPI.getCoins(player);
                     String msgGet = Main.getConfigManager().getMainConfig().getString("messages.get.message");
                     String word = Main.getConfigManager().getMainConfig().getString("messages.get.currency.word");
                     String a = Main.getConfigManager().getMainConfig().getString("messages.get.currency.a");
@@ -88,7 +88,7 @@ public class MoneyCommand implements CommandExecutor
                     );
                     return true;
                 }
-                double coins = DTCoinsAPI.getCoins(offlinePlayer);
+                long coins = DTCoinsAPI.getCoins(offlinePlayer);
                 String msg = Main.getConfigManager().getMainConfig().getString("messages.get-other.message");
 
                 String word = Main.getConfigManager().getMainConfig().getString("messages.get-other.currency.word");
@@ -126,7 +126,7 @@ public class MoneyCommand implements CommandExecutor
                             return true;
                         }
                         try {
-                            double count = Integer.parseInt(args[2]);
+                            long count = Integer.parseInt(args[2]);
                             count = DTCoinsAPI.setCoins(offlinePlayer, count);
 
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.set.from.message", "");
@@ -180,7 +180,7 @@ public class MoneyCommand implements CommandExecutor
                             return true;
                         }
                         try {
-                            double count = Integer.parseInt(args[2]);
+                            long count = Long.parseLong(args[2]);
                             if (args.length >= 4)
                             {
                                 double factor = Double.parseDouble(args[3]);
@@ -241,11 +241,6 @@ public class MoneyCommand implements CommandExecutor
                         try {
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.reset.from.message", "");
 
-                            String word = Main.getConfigManager().getMainConfig().getString("messages.reset.currency.word");
-                            String a = Main.getConfigManager().getMainConfig().getString("messages.reset.currency.a");
-                            String b = Main.getConfigManager().getMainConfig().getString("messages.reset.currency.b");
-                            String c = Main.getConfigManager().getMainConfig().getString("messages.reset.currency.c");
-
                             msgFrom = ChatColor.translateAlternateColorCodes(
                                     '&',
                                     msgFrom.replaceAll("%player%", offlinePlayer.getName())
@@ -283,7 +278,7 @@ public class MoneyCommand implements CommandExecutor
                             return true;
                         }
                         try {
-                            double count = Integer.parseInt(args[2]);
+                            long count = Integer.parseInt(args[2]);
 
                             String word = Main.getConfigManager().getMainConfig().getString("messages.take.currency.word");
                             String a = Main.getConfigManager().getMainConfig().getString("messages.take.currency.a");
