@@ -126,7 +126,7 @@ public class MoneyCommand implements CommandExecutor
                             return true;
                         }
                         try {
-                            long count = Integer.parseInt(args[2]);
+                            long count = Long.parseLong(args[2]);
                             count = DTCoinsAPI.setCoins(offlinePlayer, count);
 
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.set.from.message", "");
@@ -184,8 +184,7 @@ public class MoneyCommand implements CommandExecutor
                             if (args.length >= 4)
                             {
                                 double factor = Double.parseDouble(args[3]);
-                                count *= factor;
-                                count = (int) count;
+                                count = Math.round(count * factor);
                             }
                             count = DTCoinsAPI.addCoins(offlinePlayer, count);
                             String msgFrom = Main.getConfigManager().getMainConfig().getString("messages.add.from.message", "");
@@ -278,7 +277,7 @@ public class MoneyCommand implements CommandExecutor
                             return true;
                         }
                         try {
-                            long count = Integer.parseInt(args[2]);
+                            long count = Long.parseLong(args[2]);
 
                             String word = Main.getConfigManager().getMainConfig().getString("messages.take.currency.word");
                             String a = Main.getConfigManager().getMainConfig().getString("messages.take.currency.a");

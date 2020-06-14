@@ -41,7 +41,7 @@ public class DTCoinsAPI
         }
         return false;
     }
-    public static void addPlayer(OfflinePlayer p, int initCoins)
+    public static void addPlayer(OfflinePlayer p, long initCoins)
     {
         if (p == null)
         {
@@ -134,7 +134,7 @@ public class DTCoinsAPI
             if (!rs.next())
                 throw new IllegalArgumentException("Player not found!");
             long coins = rs.getLong("coins");
-            DTCoinsData.putNew(uuid, (int)coins);
+            DTCoinsData.putNew(uuid, coins);
             return coins;
         } catch (SQLException e) {
             e.printStackTrace();
