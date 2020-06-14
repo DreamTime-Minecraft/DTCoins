@@ -62,7 +62,7 @@ public class DTCoinsAPI
     /**
      * @return coins
      */
-    public static double setCoins(OfflinePlayer p, double count) throws IllegalArgumentException
+    public static long setCoins(OfflinePlayer p, long count) throws IllegalArgumentException
     {
         if (p == null)
         {
@@ -81,7 +81,7 @@ public class DTCoinsAPI
     /**
      * @return coins was added
      */
-    public static double addCoins(OfflinePlayer p, double count) throws IllegalArgumentException
+    public static long addCoins(OfflinePlayer p, long count) throws IllegalArgumentException
     {
         if (p == null)
         {
@@ -97,7 +97,7 @@ public class DTCoinsAPI
     /**
      * @return coins was taked
      */
-    public static double takeCoins(OfflinePlayer p, double count) throws IllegalArgumentException
+    public static long takeCoins(OfflinePlayer p, long count) throws IllegalArgumentException
     {
         if (p == null)
         {
@@ -115,7 +115,7 @@ public class DTCoinsAPI
      * @return player's coins
      * @throws IllegalArgumentException if player not found
      */
-    public static double getCoins(OfflinePlayer p) throws IllegalArgumentException
+    public static long getCoins(OfflinePlayer p) throws IllegalArgumentException
     {
         // TODO: getCoins
 
@@ -133,8 +133,8 @@ public class DTCoinsAPI
         {
             if (!rs.next())
                 throw new IllegalArgumentException("Player not found!");
-            double coins = rs.getDouble("coins");
-            DTCoinsData.putNew(uuid, (int)coins);
+            long coins = rs.getLong("coins");
+            DTCoinsData.putNew(uuid, coins);
             return coins;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,13 +146,13 @@ public class DTCoinsAPI
     /**
      * @return coins was added
      */
-    public static double addMultCoins(OfflinePlayer p, double count, double mult) throws IllegalArgumentException
+    public static long addMultCoins(OfflinePlayer p, long count, double mult) throws IllegalArgumentException
     {
         if (p == null)
         {
             return 0;
         }
-        double result = count * mult;
+        long result = Math.round(count * mult);
         if (Main.getDB().execute("UPDATE `dtcoins` SET `coins` = `coins` + ? WHERE `uuid` = ?", result, p.getUniqueId().toString()) == 0)
         {
             throw new IllegalArgumentException("Player not found!");
@@ -209,9 +209,9 @@ public class DTCoinsAPI
      * @param n число, по которому идёт склонение
      * @return правильно просклонённое слово по числу
      */
-    public static String padezh(String ed, String a, String b, String c, double n) {
+    public static String padezh(String ed, String a, String b, String c, long n) {
         if (n < 0) n = -n;
-        double last = n % 100;
+        long last = n % 100;
         if (last > 10 && last < 21) return ed + c;
         last = n % 10;
         if (last == 0 || last > 4) return ed + c;

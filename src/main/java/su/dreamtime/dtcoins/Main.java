@@ -49,7 +49,7 @@ public class Main extends JavaPlugin
         db.execute("CREATE TABLE IF NOT EXISTS `dtcoins` (" +
                     "`id` SERIAL PRIMARY KEY," +
                     "`uuid` VARCHAR(255)," +
-                    "`coins` DOUBLE DEFAULT 0," +
+                    "`coins` BIGINT DEFAULT 0," +
                     "unique(`uuid`)," +
                     "index(`uuid`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");

@@ -8,9 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DTCoinsData
 {
-    private static Map<String, Integer> coinsData = new ConcurrentHashMap<>();
+    private static Map<String, Long> coinsData = new ConcurrentHashMap<>();
 
-    public static synchronized Integer getCoins(String uuid)
+    public static synchronized long getCoins(String uuid)
     {
         return coinsData.get(uuid);
     }
@@ -29,7 +29,7 @@ public class DTCoinsData
     /**
      *
      */
-    public static synchronized void putNew(String uuid, Integer coins)
+    public static synchronized void putNew(String uuid, long coins)
     {
         if (!coinsData.containsKey(uuid)) {
             coinsData.put(uuid, coins);

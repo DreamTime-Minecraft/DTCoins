@@ -126,7 +126,7 @@ public class DTEconomy implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        DTCoinsAPI.takeCoins(offlinePlayer, v);
+        DTCoinsAPI.takeCoins(offlinePlayer, Double.valueOf(v).longValue());
         double coins = DTCoinsAPI.getCoins(offlinePlayer);
         return new EconomyResponse(v, coins, EconomyResponse.ResponseType.SUCCESS,"");
     }
@@ -148,7 +148,7 @@ public class DTEconomy implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        DTCoinsAPI.addCoins(offlinePlayer, v);
+        DTCoinsAPI.addCoins(offlinePlayer, Double.valueOf(v).longValue());
         double coins = DTCoinsAPI.getCoins(offlinePlayer);
         return new EconomyResponse(v, coins, EconomyResponse.ResponseType.SUCCESS,"");
     }
