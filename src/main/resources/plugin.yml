@@ -7,7 +7,7 @@ load: STARTUP
 depend:
   - DreamTimeAPI
 commands:
-  money:
+  points:
     description: ""
 
 permissions:

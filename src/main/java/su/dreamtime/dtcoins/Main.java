@@ -136,7 +136,7 @@ public class Main extends JavaPlugin
 
     private void registerCommands()
     {
-        getCommand("money").setExecutor(new MoneyCommand());
+        getCommand("points").setExecutor(new MoneyCommand());
     }
 
     @Override

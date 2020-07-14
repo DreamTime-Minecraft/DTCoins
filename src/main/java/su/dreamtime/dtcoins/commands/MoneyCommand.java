@@ -19,7 +19,7 @@ public class MoneyCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        if (command.getName().equalsIgnoreCase("money"))
+        if (command.getName().equalsIgnoreCase("points"))
         {
             if (args.length <= 0)
             {
