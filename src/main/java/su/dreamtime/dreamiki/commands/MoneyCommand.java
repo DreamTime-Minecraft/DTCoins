@@ -337,6 +337,14 @@ public class MoneyCommand implements CommandExecutor
                                             .replaceAll("%target%", offlinePlayer.getName())
                                             .replaceAll("%curr_name%", DTCoinsAPI.padezh(word, a, b, c, count));
                                     Bukkit.dispatchCommand(sender, commandToExec);
+
+                                    boolean item = true;
+
+                                    if(commandToExec.startsWith("lp")) {
+                                        item = false;
+                                    }
+
+                                    DTCoinsAPI.addPurchase(sender.getName(), commandToExec, item);
                                 }
                             }
                             else {
