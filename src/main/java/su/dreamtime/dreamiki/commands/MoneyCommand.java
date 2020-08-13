@@ -340,11 +340,11 @@ public class MoneyCommand implements CommandExecutor
 
                                     boolean item = true;
 
-                                    if(commandToExec.startsWith("lp")) {
+                                    if(commandToExec.startsWith("lp") || commandToExec.startsWith("cc") || commandToExec.startsWith("ae")) {
                                         item = false;
                                     }
 
-                                    DTCoinsAPI.addPurchase(sender.getName(), commandToExec, item);
+                                    DTCoinsAPI.addPurchase(offlinePlayer.getName(), commandToExec, item);
                                 }
                             }
                             else {

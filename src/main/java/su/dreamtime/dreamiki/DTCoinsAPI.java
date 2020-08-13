@@ -153,8 +153,8 @@ public class DTCoinsAPI
      * @param item is player buy an item or not
      */
     public static void addPurchase(String username, String command, boolean item) {
-        Main.getDB().execute("INSERT INTO `dreamiki_buys` (`username`,`command`,`item`)" +
-                "VALUES (?, ?, ?)", username, command, item);
+        Main.getDB().execute("INSERT INTO `dreamiki_buys` (`username`,`command`,`item`, `server`)" +
+                "VALUES (?, ?, ?, ?)", username, command, item, Main.getConfigManager().getMainConfig().getString("server"));
     }
 
     public static void setGiven(String username, String command, boolean given) {
