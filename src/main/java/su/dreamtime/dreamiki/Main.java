@@ -48,6 +48,14 @@ public class Main extends JavaPlugin
                     "unique(`uuid`)," +
                     "index(`uuid`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
+        db.execute("CREATE TABLE IF NOT EXISTS `dreamiki_buys` (" +
+                    "`id` SERIAL PRIMARY KEY," +
+                    "`username` VARCHAR(255)," +
+                    "`season` INT DEFAULT 1," +
+                    "`server` VARCHAR(255)," +
+                    "`command` VARCHAR(255)," +
+                    "`given` BOOLEAN DEFAULT TRUE," +
+                    "`item` BOOLEAN");
         getInstance().getLogger().info("db was initialized");
     }
     public static void initPlaceholderAPI()
