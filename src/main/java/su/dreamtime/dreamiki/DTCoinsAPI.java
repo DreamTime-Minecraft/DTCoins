@@ -176,6 +176,12 @@ public class DTCoinsAPI
                 username, Main.getConfigManager().getMainConfig().getString("server"))) {
             if(!rs.next()) return list;
 
+            while(rs.next()) {
+                list.add(new PurchasePlayer
+                        (username, rs.getString("command"), rs.getBoolean("given"), rs.getBoolean("item")));
+            }
+
+            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
