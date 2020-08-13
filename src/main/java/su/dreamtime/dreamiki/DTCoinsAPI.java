@@ -172,9 +172,10 @@ public class DTCoinsAPI
     public static List<PurchasePlayer> getPurchases(String username) {
         List<PurchasePlayer> list = new ArrayList<>();
         Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT * FROM `dreamiki_buys` WHERE `username`= ?", username)) {
+        try (ResultSet rs = db.query("SELECT * FROM `dreamiki_buys` WHERE `username`= ? AND `server`= ?",
+                username, Main.getConfigManager().getMainConfig().getString("server"))) {
             if(!rs.next()) return list;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
