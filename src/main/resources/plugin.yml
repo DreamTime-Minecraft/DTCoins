@@ -10,6 +10,8 @@ commands:
   donatewallet:
     description: ""
     aliases: [dw]
+  cart:
+    description: ""
 
 permissions:
   dreamiki.get:

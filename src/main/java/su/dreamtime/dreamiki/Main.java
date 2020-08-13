@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.sgk.dreamtimeapi.data.Database;
 import ru.sgk.dreamtimeapi.io.ConfigManager;
 import su.dreamtime.dreamiki.bungee.DTCoinsMessenger;
+import su.dreamtime.dreamiki.commands.CartCommand;
 import su.dreamtime.dreamiki.commands.MoneyCommand;
 import su.dreamtime.dreamiki.data.DTCoinsData;
 import su.dreamtime.dreamiki.events.DTCoinsEventListener;
@@ -101,6 +102,7 @@ public class Main extends JavaPlugin
     private void registerCommands()
     {
         getCommand("donatewallet").setExecutor(new MoneyCommand());
+        getCommand("cart").setExecutor(new CartCommand());
     }
 
     @Override
