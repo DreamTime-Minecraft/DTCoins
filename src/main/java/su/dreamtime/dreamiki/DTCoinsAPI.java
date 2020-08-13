@@ -157,16 +157,8 @@ public class DTCoinsAPI
                 "VALUES (?, ?, ?)", username, command, item);
     }
 
-    public static PurchasePlayer getPurchase(long id) {
-        Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT * FROM `dreamiki_buys` WHERE `id`= ?",id)) {
-            if(!rs.next()) return null;
-            return new PurchasePlayer(rs.getString("username"), rs.getString("command"),
-                    rs.getBoolean("given"), rs.getBoolean("item"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static void setGiven(String username, String command, boolean given) {
+        Main.getDB().execute("UPDATE `dreamiki_buys` SET `given`= ? WHERE `username`= ? AND `command`= ?", given, username, command);
     }
 
     public static List<PurchasePlayer> getPurchases(String username) {
