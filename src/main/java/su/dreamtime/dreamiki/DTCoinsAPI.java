@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import ru.sgk.dreamtimeapi.data.Database;
 import su.dreamtime.dreamiki.bungee.DTCoinsMessenger;
 import su.dreamtime.dreamiki.data.DTCoinsData;
+import su.dreamtime.dreamiki.data.PurchasePlayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -141,6 +142,46 @@ public class DTCoinsAPI
         }
         catch (NullPointerException ignored) { }
         return 0;
+    }
+
+    /**
+     *
+     * @param username player's nickname
+     * @param command command to dispatch
+     * @param item is player buy an item or not
+     */
+    public static void addPurchase(String username, String command, boolean item) {
+        Main.getDB().execute("INSERT INTO `dreamiki_buys` (`username`,`command`,`item`)" +
+                "VALUES (?, ?, ?)", username, command, item);
+    }
+
+    public static PurchasePlayer getPurchase(long id) {
+        Database db = Main.getDB();
+        try (ResultSet rs = db.query("SELECT * FROM `dreamiki_buys` WHERE `id`= ?",id)) {
+            if(!rs.next()) return null;
+            return new PurchasePlayer(rs.getString("username"), rs.getString("command"),
+                    rs.getBoolean("given"), rs.getBoolean("item"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param id айди покупки
+     * @param username ник игрока
+     * @return айди принадлежит игроку или нет
+     */
+    public static boolean isIdByPlayer(long id, String username) {
+        Database db = Main.getDB();
+        try (ResultSet rs = db.query("SELECT `username` FROM `dreamiki_buys` WHERE `id`= ?",id)) {
+            if(!rs.next()) return false;
+            return rs.getString("username").equalsIgnoreCase(username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

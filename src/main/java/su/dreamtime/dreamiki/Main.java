@@ -51,7 +51,7 @@ public class Main extends JavaPlugin
         db.execute("CREATE TABLE IF NOT EXISTS `dreamiki_buys` (" +
                     "`id` SERIAL PRIMARY KEY," +
                     "`username` VARCHAR(255)," +
-                    "`season` INT DEFAULT 1," +
+                    "`server` VARCHAR(255)," +
                     "`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "`command` VARCHAR(255)," +
                     "`given` BOOLEAN DEFAULT TRUE," +

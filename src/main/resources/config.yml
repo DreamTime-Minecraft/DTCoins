@@ -5,6 +5,9 @@ database:
   login: root
   password: root
   database: dreamtime
+
+server: 'survival'
+
 messages:
   get:
     message: "&aВаш баланс: %coins% %curr_name%"
