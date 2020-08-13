@@ -15,6 +15,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class DTCoinsAPI
@@ -167,21 +169,16 @@ public class DTCoinsAPI
         return null;
     }
 
-    /**
-     *
-     * @param id айди покупки
-     * @param username ник игрока
-     * @return айди принадлежит игроку или нет
-     */
-    public static boolean isIdByPlayer(long id, String username) {
+    public static List<PurchasePlayer> getPurchases(String username) {
+        List<PurchasePlayer> list = new ArrayList<>();
         Database db = Main.getDB();
-        try (ResultSet rs = db.query("SELECT `username` FROM `dreamiki_buys` WHERE `id`= ?",id)) {
-            if(!rs.next()) return false;
-            return rs.getString("username").equalsIgnoreCase(username);
+        try (ResultSet rs = db.query("SELECT * FROM `dreamiki_buys` WHERE `username`= ?", username)) {
+            if(!rs.next()) return list;
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return list;
     }
 
     /**
